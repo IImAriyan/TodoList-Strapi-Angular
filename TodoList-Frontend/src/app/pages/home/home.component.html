@@ -168,107 +168,175 @@
   </div>
 
   <!-- Modals -->
-  @if (addTodoPopup || deletePopup || updatePopup) {
-    <div class="fixed inset-0 bg-[rgba(24,24,38,0.9)] flex justify-center items-center z-50 p-4">
-      @if (addTodoPopup) {
-        <div class="z-10 w-full max-w-sm rounded border border-[#32324d] p-5
-                    shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
-          <h1 class="text-white font-[600] text-center text-[22px] sm:text-[26px]">
-            Add Todo
+  <!-- ... (previous code remains the same until modals) ... -->
+
+<!-- Modals -->
+@if (addTodoPopup || deletePopup || updatePopup) {
+  <div class="fixed inset-0 bg-[rgba(24,24,38,0.95)] flex justify-center items-center z-50 p-4">
+    <!-- Add Todo Modal -->
+    @if (addTodoPopup) {
+      <div class="z-10 w-full max-w-md rounded-2xl border border-[#32324d]/50 p-8
+                  shadow-[0_0_40px_rgba(73,69,255,0.1)] bg-[#212134]/95 backdrop-blur-sm
+                  transform transition-all duration-300 scale-100">
+        <div class="flex flex-col items-center mb-6">
+          <div class="w-12 h-12 bg-[#4945ff]/10 rounded-xl flex items-center justify-center mb-4">
+            <mat-icon class="text-[#4945ff] text-2xl">add_task</mat-icon>
+          </div>
+          <h1 class="text-white font-bold text-2xl sm:text-3xl bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+            Add New Todo
           </h1>
-          <form class="flex flex-col gap-3 mt-5" [formGroup]="addTodoForm">
-            <input formControlName="Name"
-                   type="text"
-                   placeholder="Enter Name ..."
-                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl
-                          transition-all duration-300 ring-0 focus:border-blue-300
-                          text-white text-[0.8rem] outline-none">
-            <input formControlName="Description"
-                   type="text"
-                   placeholder="Enter Description ..."
-                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl
-                          transition-all duration-300 ring-0 focus:border-blue-300
-                          text-white text-[0.8rem] outline-none">
-            <div class="flex gap-2 mt-2 justify-center">
-              <button (click)="addTodoPopup = !addTodoPopup"
-                      class="bg-rose-500 flex items-center justify-center
-                             text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
-                             cursor-pointer transition-all duration-300 hover:bg-rose-400">
-                Cancel
-              </button>
-              <button [disabled]="addTodoForm.invalid"
-                      (click)="addTodo()"
-                      class="bg-[#4945ff] flex items-center justify-center
-                             text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
-                             disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300
-                             cursor-pointer transition-all duration-300 hover:bg-blue-400">
-                Add
-              </button>
-            </div>
-          </form>
+          <p class="text-gray-400 text-sm mt-2">Create a new task to manage your activities</p>
         </div>
-      } @else if (deletePopup) {
-        <div class="p-6 sm:p-10 flex flex-col justify-center items-center rounded
-                    border border-[#32324d] shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)]
-                    bg-[#212134] w-full max-w-sm text-center">
-          <h1 class="text-[1.2rem] sm:text-[1.3rem] text-white mb-2">Delete Todo</h1>
-          <h3 class="text-[#a5a5ba] text-[0.7rem] sm:text-[0.8rem]">
-            Do you want to delete your todo?
-          </h3>
-          <div class="flex gap-2 mt-5">
-            <button (click)="deletePopup = !deletePopup"
-                    class="bg-gray-500 flex items-center justify-center
-                           text-gray-200 opacity-[0.7] p-2 px-4 sm:px-5
-                           font-[600] text-[13px] rounded
-                           cursor-pointer transition-all duration-300 hover:bg-gray-400">
-              Cancel
+
+        <form class="flex flex-col gap-4" [formGroup]="addTodoForm">
+          <div class="flex flex-col gap-2">
+            <label class="text-gray-400 text-sm font-medium pl-1">Task Name</label>
+            <div class="relative">
+              <mat-icon class="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#4945ff]/70">assignment</mat-icon>
+              <input formControlName="Name"
+                     type="text"
+                     placeholder="Enter task name"
+                     class="w-full pl-11 pr-4 py-3 bg-[#181826]/80 rounded-xl
+                            border-2 border-[#32324d]/40
+                            transition-all duration-300
+                            text-white text-[0.95rem]
+                            outline-none placeholder:text-gray-500/60
+                            focus:border-[#4945ff] focus:shadow-[0_0_20px_rgba(73,69,255,0.15)]">
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="text-gray-400 text-sm font-medium pl-1">Description</label>
+            <div class="relative">
+              <mat-icon class="absolute left-3 top-4 text-[#4945ff]/70">description</mat-icon>
+              <textarea formControlName="Description"
+                        rows="3"
+                        placeholder="Enter task description"
+                        class="w-full pl-11 pr-4 py-3 bg-[#181826]/80 rounded-xl
+                               border-2 border-[#32324d]/40
+                               transition-all duration-300
+                               text-white text-[0.95rem]
+                               outline-none placeholder:text-gray-500/60
+                               focus:border-[#4945ff] focus:shadow-[0_0_20px_rgba(73,69,255,0.15)]
+                               resize-none">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-4">
+            <button (click)="addTodoPopup = !addTodoPopup"
+                    class="flex-1 group relative px-5 py-3 rounded-xl bg-[#181826] border-2 border-[#32324d]/40 cursor-pointer
+                           transition-all duration-300 hover:bg-[#181826]/80">
+              <span class="text-gray-400 font-medium text-sm z-[10]">Cancel</span>
             </button>
-            <button (click)="deleteTodo()"
-                    class="bg-rose-500 flex items-center justify-center
-                           text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
-                           cursor-pointer transition-all duration-300 hover:bg-rose-400">
-              Delete
+            <button [disabled]="addTodoForm.invalid"
+                    (click)="addTodo()"
+                    class="flex-1 group relative px-5 py-3 rounded-xl bg-[#4945ff] cursor-pointer
+                           transition-all duration-300 hover:bg-[#4945ff]/90
+                           disabled:bg-gray-600 disabled:cursor-not-allowed">
+              <span class="text-white font-medium text-sm z-[10]">Create Todo</span>
             </button>
           </div>
+        </form>
+      </div>
+
+    <!-- Delete Todo Modal -->
+    } @else if (deletePopup) {
+      <div class="z-10 w-full max-w-sm rounded-2xl border border-[#32324d]/50 p-8
+                  shadow-[0_0_40px_rgba(244,63,94,0.1)] bg-[#212134]/95 backdrop-blur-sm
+                  transform transition-all duration-300 scale-100">
+        <div class="flex flex-col items-center mb-6">
+          <div class="w-12 h-12 bg-rose-500/10 rounded-xl flex items-center justify-center mb-4">
+            <mat-icon class="text-rose-500 text-2xl">warning</mat-icon>
+          </div>
+          <h1 class="text-white font-bold text-2xl sm:text-3xl">Delete Todo</h1>
+          <p class="text-gray-400 text-sm mt-3 text-center ">
+            Are you sure you want to delete this task?<br>
+            This action cannot be undone.
+          </p>
         </div>
-      } @else if (updatePopup) {
-        <div class="z-10 w-full max-w-sm rounded border border-[#32324d] p-5
-                    shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
-          <h1 class="text-white font-[600] text-center text-[22px] sm:text-[26px]">
+
+        <div class="flex gap-3">
+          <button (click)="deletePopup = !deletePopup"
+                  class="flex-1 group relative px-5 py-3 rounded-xl bg-[#181826] border-2 border-[#32324d]/40 cursor-pointer
+                         transition-all duration-300 hover:bg-[#181826]/80">
+            <span class="text-gray-400 font-medium text-sm z-[10]">Cancel</span>
+          </button>
+          <button (click)="deleteTodo()"
+                  class="flex-1 group relative px-5 py-3 rounded-xl bg-rose-500 cursor-pointer
+                         transition-all duration-300 hover:bg-rose-600">
+            <span class="text-white font-medium text-sm z-[10]">Delete</span>
+          </button>
+        </div>
+      </div>
+
+    <!-- Update Todo Modal -->
+    } @else if (updatePopup) {
+      <div class="z-10 w-full max-w-md rounded-2xl border border-[#32324d]/50 p-8
+                  shadow-[0_0_40px_rgba(245,158,11,0.1)] bg-[#212134]/95 backdrop-blur-sm
+                  transform transition-all duration-300 scale-100">
+        <div class="flex flex-col items-center mb-6">
+          <div class="w-12 h-12 bg-amber-500/10 rounded-xl flex items-center justify-center mb-4">
+            <mat-icon class="text-amber-500 text-2xl">edit</mat-icon>
+          </div>
+          <h1 class="text-white font-bold text-2xl sm:text-3xl bg-gradient-to-r from-amber-400 to-amber-600 bg-clip-text text-transparent">
             Edit Todo
           </h1>
-          <form class="flex flex-col gap-3 mt-5" [formGroup]="editTodoForm">
-            <input formControlName="Name"
-                   type="text"
-                   placeholder="Enter Name ..."
-                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl
-                          transition-all duration-300 ring-0 focus:border-blue-300
-                          text-white text-[0.8rem] outline-none">
-            <input formControlName="Description"
-                   type="text"
-                   placeholder="Enter Description ..."
-                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl
-                          transition-all duration-300 ring-0 focus:border-blue-300
-                          text-white text-[0.8rem] outline-none">
-            <div class="flex gap-2 mt-2 justify-center">
-              <button (click)="updatePopup = !updatePopup"
-                      class="bg-rose-500 flex items-center justify-center
-                             text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
-                             cursor-pointer transition-all duration-300 hover:bg-rose-400">
-                Cancel
-              </button>
-              <button [disabled]="editTodoForm.invalid"
-                      (click)="update()"
-                      class="bg-amber-500 flex items-center justify-center
-                             text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
-                             disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300
-                             cursor-pointer transition-all duration-300 hover:bg-amber-400">
-                Edit
-              </button>
-            </div>
-          </form>
+          <p class="text-gray-400 text-sm mt-2">Update your task details</p>
         </div>
-      }
-    </div>
-  }
+
+        <form class="flex flex-col gap-4" [formGroup]="editTodoForm">
+          <div class="flex flex-col gap-2">
+            <label class="text-gray-400 text-sm font-medium pl-1">Task Name</label>
+            <div class="relative">
+              <mat-icon class="absolute left-3 top-1/2 transform -translate-y-1/2 text-amber-500/70">assignment</mat-icon>
+              <input formControlName="Name"
+                     type="text"
+                     placeholder="Enter task name"
+                     class="w-full pl-11 pr-4 py-3 bg-[#181826]/80 rounded-xl
+                            border-2 border-[#32324d]/40
+                            transition-all duration-300
+                            text-white text-[0.95rem]
+                            outline-none placeholder:text-gray-500/60
+                            focus:border-amber-500 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)]">
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <label class="text-gray-400 text-sm font-medium pl-1">Description</label>
+            <div class="relative">
+              <mat-icon class="absolute left-3 top-4 text-amber-500/70">description</mat-icon>
+              <textarea formControlName="Description"
+                        rows="3"
+                        placeholder="Enter task description"
+                        class="w-full pl-11 pr-4 py-3 bg-[#181826]/80 rounded-xl
+                               border-2 border-[#32324d]/40
+                               transition-all duration-300
+                               text-white text-[0.95rem]
+                               outline-none placeholder:text-gray-500/60
+                               focus:border-amber-500 focus:shadow-[0_0_20px_rgba(245,158,11,0.15)]
+                               resize-none">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="flex gap-3 mt-4">
+            <button (click)="updatePopup = !updatePopup"
+                    class="flex-1 group relative px-5 py-3 rounded-xl bg-[#181826] border-2 border-[#32324d]/40 cursor-pointer
+                           transition-all duration-300 hover:bg-[#181826]/80">
+              <span class="text-gray-400 font-medium text-sm z-[10]">Cancel</span>
+            </button>
+            <button [disabled]="editTodoForm.invalid"
+                    (click)="update()"
+                    class="flex-1 group relative px-5 py-3 rounded-xl bg-amber-500 cursor-pointer
+                           transition-all duration-300 hover:bg-amber-600
+                           disabled:bg-gray-600 disabled:cursor-not-allowed">
+              <span class="text-white font-medium text-sm z-[10]">Update Task</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    }
+  </div>
+}
 </main>

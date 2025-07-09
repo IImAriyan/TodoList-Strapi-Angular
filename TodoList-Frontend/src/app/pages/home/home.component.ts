@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
 import {TodoServiceService} from '../../services/todo-service.service';
-import {ITodoAddDto, ITodoAddDtoResponse, ITodoGetAPI, ITodoGetDto} from '../../DTOs/todoDto';
+import {ITodoAddDto, ITodoAddDtoResponse, ITodoAddToApiDto, ITodoGetAPI, ITodoGetDto} from '../../DTOs/todoDto';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 interface ITableHeadField {
   field:string
@@ -63,6 +64,11 @@ export class HomeComponent {
   filterdItems :ITableValues[] | undefined = undefined
 
 
+  constructor(private todoService: TodoServiceService, private router:Router, private auth : AuthService) {
+    this.reloadTodos();
+  }
+
+
   onSearch() {
       if (this.searchQuery !== undefined) {
         const lowerSearch = this.searchQuery.toLowerCase();
@@ -77,9 +83,6 @@ export class HomeComponent {
   }
 
 
-  constructor(private todoService: TodoServiceService, private router:Router) {
-    this.reloadTodos();
-  }
 
   reloadTodos() {
     this.tableData = [];
@@ -105,11 +108,18 @@ export class HomeComponent {
     const Name = this.addTodoForm.controls['Name'].value;
     const Description = this.addTodoForm.controls['Description'].value;
     const completed = false;
-    var requestBody: ITodoAddDtoResponse = {
+    const userID = this.auth.get('userID')
+    if (userID !== null) {
+         var requestBody: ITodoAddToApiDto = {
       data: {
         Name: Name,
         Description: Description,
-        completed:completed
+        completed:completed,
+        users:[
+          {
+            id:Number(userID)
+          }
+        ]
       }
     }
     this.todoService.addTodo(requestBody).subscribe((response: ITodoAddDtoResponse)=>{
@@ -117,6 +127,7 @@ export class HomeComponent {
       this.reloadTodos();
       this.addTodoForm.reset();
     })
+    }
 
   }
   updateTodoCompelete(todoId:string) {

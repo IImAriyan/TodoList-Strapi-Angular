@@ -20,6 +20,18 @@ export interface ITodoAddDto {
   completed:boolean;
 }
 
+export interface ITodoAddToApiDto {
+  data :{
+      Name:string;
+  Description:string;
+  completed:boolean;
+  users:[
+    {
+      id:number
+    }
+  ]
+  }
+}
 
 
 
