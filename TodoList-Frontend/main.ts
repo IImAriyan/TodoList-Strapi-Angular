@@ -21,6 +21,7 @@ function createWindow() {
 
   mainWindow.loadURL(indexPath);
   mainWindow.title = 'Todo List App';
+  mainWindow.setIcon('./public/assets/appicon.ico');
 
 mainWindow.setMenuBarVisibility(false);
   mainWindow.on('closed', () => {

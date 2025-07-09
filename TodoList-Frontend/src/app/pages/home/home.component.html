@@ -34,7 +34,7 @@
       <div class="flex gap-5 items-center">
         <div class="relative w-full max-w-[300px]">
           <div class="relative flex items-center group">
-            <mat-icon class="absolute left-4 text-[#4945ff] opacity-70 transition-all duration-300
+            <mat-icon style="color: white;" class="absolute text-white left-4 opacity-70 transition-all duration-300
                             group-hover:opacity-100 group-focus-within:opacity-100">
               search
             </mat-icon>
@@ -110,13 +110,13 @@
                       <div (click)="onclickDelete(data.Id)"
                            class="bg-rose-500 p-1 rounded cursor-pointer
                                   transition-all duration-300 hover:bg-rose-300
-                                  flex justify-center items-center">
-                        <mat-icon class="text-sm sm:text-base">delete_forever</mat-icon>
+                                  flex justify-center items-center rounded-[50%]">
+                        <mat-icon class="text-[0.5rem] ">delete_forever</mat-icon>
                       </div>
                       <div (click)="updateButtonClicked(data.Id, data.Name, data.Description, data.compeleted)"
                            class="bg-amber-500 p-1 rounded cursor-pointer
                                   transition-all duration-300 hover:bg-amber-300
-                                  flex justify-center items-center">
+                                  flex justify-center items-center rounded-[50%]">
                         <mat-icon class="text-sm sm:text-base">brush</mat-icon>
                       </div>
                     </td>
@@ -129,8 +129,9 @@
 
             <!-- Pagination -->
             <!-- Pagination Section -->
-               @if (tableData.length !== 0) {
-                <div class="flex justify-center items-center mt-6 gap-2">
+               @if (tableData.length !== 0 ) {
+                  @if (pages.length !==1) {
+                                    <div class="flex justify-center items-center mt-6 gap-2">
             <!-- Previous Page Button -->
             <button (click)="previousPage()"
                     [disabled]="currentPage === 1"
@@ -152,6 +153,7 @@
                                 'bg-[#4945ff] text-white' :
                                 'bg-[#181826] text-gray-400 hover:bg-[#4945ff]/10 hover:text-white'}}">
                   {{page}}
+
                 </button>
               }
             </div>
@@ -167,6 +169,7 @@
               <mat-icon class="text-[#4945ff] text-[18px]">chevron_right</mat-icon>
             </button>
           </div>
+                  }
                }
           </div>
         </div>
@@ -344,3 +347,7 @@
     </div>
   }
 </main>
+
+<footer class="fixed bottom-0 text-white bg-transparent flex justify-center items-center left-0 w-full p-2">
+    <h1>Powerd By <span class="text-purple-700">ViraGohar</span> 2025-2025</h1>
+</footer>

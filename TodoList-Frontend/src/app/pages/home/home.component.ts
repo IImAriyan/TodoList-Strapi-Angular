@@ -5,6 +5,7 @@ import {ITodoAddDto, ITodoAddDtoResponse, ITodoAddToApiDto, ITodoGetAPI, ITodoGe
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { Notyf } from 'notyf';
 
 interface ITableHeadField {
   field:string
@@ -60,14 +61,18 @@ export class HomeComponent {
     {field:"Actions"}
   ];
 
+  notyf:Notyf = new Notyf();
+
   tableData: ITableValues[] = [];
     searchQuery: string | undefined = undefined;
 
   filterdItems :ITableValues[] | undefined = undefined
 
 
-  constructor(private todoService: TodoServiceService, private router:Router, private auth : AuthService) {
+  constructor(private todoService: TodoServiceService, private router:Router, private auth : AuthService ) {
     this.reloadTodos();
+
+
   }
 
   currentPage: number = 1;
@@ -180,6 +185,8 @@ export class HomeComponent {
       this.addTodoPopup = false;
       this.reloadTodos();
       this.addTodoForm.reset();
+
+      this.notyf.success("Todo Successfully Added")
     })
     }
 
@@ -192,6 +199,7 @@ export class HomeComponent {
       completed:false
     };
     this.todoService.getTodos().subscribe((response : ITodoGetAPI) =>{
+
       response.data.forEach(todo => {
         if (todo.documentId == todoId) {
           todoForUpdate = {
@@ -212,6 +220,7 @@ export class HomeComponent {
           this.todoService.updateTodo(todoForRequest , todoId).subscribe((response=>{
             this.tableData = []
             this.reloadTodos();
+            this.notyf.success('Todo Successfully Updated')
           }))
         }
 
@@ -232,6 +241,8 @@ export class HomeComponent {
       this.deleteTodoID = "";
       this.deletePopup = false;
       this.reloadTodos()
+      this.notyf.success('Todo Successfully Deleted')
+
     })
   }
 
