@@ -66,10 +66,14 @@
 
       <!-- Table Container -->
       <div class="w-full rounded border border-[#32324d] p-3 sm:p-5 shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
-        <div class="overflow-y-auto hide-scrollbar max-h-[40vh] md:max-h-[55vh]">
+        <div class="overflow-y-auto hide-scrollbar max-h-[40vh] md:max-h-[56vh]">
           <div class="overflow-x-auto">
-            <table class="table-auto w-full border-collapse">
-              <thead>
+              @if(tableData.length == 0) {
+                <h1 class="text-[1rem] text-center text-white">You Don't Have any Todo In Here.</h1>
+              }@else {
+                <table class="table-auto w-full border-collapse">
+
+                <thead>
                 <tr class="text-[#a5a5ba] text-[0.8rem] sm:text-[1rem]">
                   <th class="text-left head-text p-3 sm:p-5 whitespace-nowrap">
                     <h1>ID</h1>
@@ -121,9 +125,12 @@
               </tbody>
             </table>
 
+               }
+
             <!-- Pagination -->
             <!-- Pagination Section -->
-          <div class="flex justify-center items-center mt-6 gap-2">
+               @if (tableData.length !== 0) {
+                <div class="flex justify-center items-center mt-6 gap-2">
             <!-- Previous Page Button -->
             <button (click)="previousPage()"
                     [disabled]="currentPage === 1"
@@ -160,6 +167,7 @@
               <mat-icon class="text-[#4945ff] text-[18px]">chevron_right</mat-icon>
             </button>
           </div>
+               }
           </div>
         </div>
       </div>

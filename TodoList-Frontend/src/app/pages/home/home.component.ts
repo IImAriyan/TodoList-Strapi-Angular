@@ -71,7 +71,7 @@ export class HomeComponent {
   }
 
   currentPage: number = 1;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 4;
   totalPages: number = 1;
 
   get paginatedData() {
@@ -154,6 +154,8 @@ export class HomeComponent {
           }
         }
       }
+
+      this.onSearch()
     });
   }
   addTodo() {
