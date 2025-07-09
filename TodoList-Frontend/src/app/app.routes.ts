@@ -6,12 +6,12 @@ import { LoginComponent } from './pages/login/login.component';
 export const routes: Routes = [
   {
     path:"",
-    redirectTo:"home",
+    redirectTo:"todos",
     pathMatch:"full"
   },
 
   {
-    path:'home',
+    path:'todos',
     component:HomeComponent,
     canActivate:[authGuard]
   },

@@ -22,6 +22,7 @@ export const authGuard: CanActivateFn = (route, state) => {
     const tokenDecode = jwtDecode<jwtClaims>(localStorageToken);
     const currentTime = Math.floor(Date.now() / 1000);
     const isExpired = currentTime > tokenDecode.exp;
+    console.log(currentTime, tokenDecode.exp)
 
     if (isExpired) {
       localStorage.removeItem("token")

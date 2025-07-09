@@ -1,4 +1,5 @@
 <main class="bg-[#181826] w-full min-h-screen p-4 sm:p-6 md:p-10">
+  <!-- Header Section -->
   <div class="flex flex-col sm:flex-row justify-between items-center mb-6 sm:mb-10">
     <div class="flex flex-col text-center sm:text-left mb-4 sm:mb-0">
       <h1 class="text-white font-[600] text-[28px] sm:text-[32px]">
@@ -8,137 +9,260 @@
         Enjoy the best todo list app in iran
       </h3>
     </div>
-  <div class="flex gap-2">
-    <button (click)="addTodoPopup = !addTodoPopup" class="bg-[#4945ff] flex items-center justify-center
-     text-white p-2 px-4 sm:px-5 font-[600] text-[12px] sm:text-[13px] rounded
-    cursor-pointer transition-all duration-300 hover:bg-blue-400 w-full sm:w-auto">
-      <mat-icon class="text-[10px] sm:text-[12px]">add</mat-icon>
-      <h1>Add a new Todo</h1>
-    </button>
-    <button (click)="logOut()" class="bg-rose-500 flex items-center justify-center
-     text-white p-2 px-4 sm:  Apx-5 font-[600] text-[12px] sm:text-[13px] rounded
-    cursor-pointer transition-all duration-300 hover:bg-rose-400 w-full sm:w-auto">
-      <mat-icon class="text-[10px] sm:text-[12px]">logout
-      </mat-icon>
-    </button>
-
+    <div class="flex gap-2">
+      <button (click)="addTodoPopup = !addTodoPopup"
+              class="bg-[#4945ff] flex items-center justify-center
+                     text-white p-2 px-4 sm:px-5 font-[600] text-[12px] sm:text-[13px] rounded
+                     cursor-pointer transition-all duration-300 hover:bg-blue-400 w-full sm:w-auto">
+        <mat-icon class="text-[10px] sm:text-[12px]">add</mat-icon>
+        <h1>Add a new Todo</h1>
+      </button>
+      <button (click)="logOut()"
+              class="bg-rose-500 flex items-center justify-center
+                     text-white p-2 px-4 sm:px-5 font-[600] text-[12px] sm:text-[13px] rounded
+                     cursor-pointer transition-all duration-300 hover:bg-rose-400 w-full sm:w-auto">
+        <mat-icon class="text-[10px] sm:text-[12px]">logout</mat-icon>
+      </button>
+    </div>
   </div>
-  </div>
 
-  <div class="flex justify-center w-full">
-    <div class="w-full sm:w-[95%] md:w-[90%] lg:w-[80%] rounded border border-[#32324d] p-3 sm:p-5 shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
-      <div class="overflow-y-auto max-h-[60vh] md:max-h-[70vh]">
-        <div class="overflow-x-auto">
-          <table class="table-auto w-full border-collapse">
-            <thead class="">
-            <tr class="text-[#a5a5ba] text-[0.8rem] sm:text-[1rem]">
-              <th class="text-left head-text p-3 sm:p-5 whitespace-nowrap">
-                <h1>ID</h1>
-              </th>
-              @for (field of tablehead; track field) {
-                <th class="text-left head-text p-3 sm:p-5 whitespace-nowrap">
-                  <h1>{{field.field}}</h1>
-                </th>
-              }
-            </tr>
-            </thead>
-            <tbody>
-              @for (data of tableData; track data) {
-                <tr class="text-white border-t border-t-[#32324d] transition-all duration-300  ">
-                  <td class="p-3 sm:p-5 whitespace-nowrap">{{$index+1}}</td>
-                  <td class="p-3 sm:p-5 whitespace-nowrap">{{data.Name}}</td>
-                  <td class="p-3 sm:p-5 whitespace-nowrap">{{data.Description}}</td>
-                  <td class="p-3 sm:p-5 ">
-                    @if (data.compeleted) {
-                      <div (click)="updateTodoCompelete(data.Id)" class="w-[15px] h-[15px] rounded-[50%] bg-green-500 cursor-pointer transition-all duration-300
-                      hover:bg-red-200 mx-auto sm:mx-0 green-circle"></div>
-                    } @else {
-                      <div (click)="updateTodoCompelete(data.Id)" class="w-[15px] h-[15px] rounded-[50%] bg-red-500 cursor-pointer transition-all duration-300
-                      hover:bg-green-200 mx-auto sm:mx-0 red-circle"></div>
-                    }
-                  </td>
-                  <td class="p-3 sm:p-5 flex gap-2 justify-center sm:justify-start">
-                    <div (click)="onclickDelete(data.Id)" class="bg-rose-500 p-1 rounded cursor-pointer transition-all duration-300 hover:bg-rose-300 flex justify-center items-center">
-                      <mat-icon class="text-sm sm:text-base">delete_forever</mat-icon>
-                    </div>
-                    <div (click)="updateButtonClicked(data.Id, data.Name, data.Description, data.compeleted)" class="bg-amber-500 p-1 rounded cursor-pointer transition-all duration-300 hover:bg-amber-300 flex justify-center items-center">
-                      <mat-icon class="text-sm sm:text-base">brush</mat-icon>
-                    </div>
-                  </td>
+  <!-- Main Content Container -->
+  <div class="w-full sm:w-[95%] md:w-[90%] lg:w-[80%] mx-auto">
+    <!-- Search and Table Container -->
+    <div class="flex flex-col gap-5">
+      <!-- Search Box -->
+        <div class="flex gap-5 items-center">
+                <div class="relative w-full max-w-[300px]">
+        <div class="relative flex items-center group">
+          <mat-icon class="absolute left-4 text-[#4945ff] opacity-70 transition-all duration-300
+                          group-hover:opacity-100 group-focus-within:opacity-100">
+            search
+          </mat-icon>
+
+          <input type="text"
+                 [(ngModel)]="searchQuery"
+                 (input)="onSearch()"
+                 placeholder="Search in your todos..."
+                 class="w-full pl-12  p-2
+                        bg-[#212134]
+                        rounded-2xl
+                        border-2 border-[#32324d]/40
+                        transition-all duration-300
+                        text-white text-[0.95rem]
+                        outline-none
+                        placeholder:text-gray-500/60
+                        hover:border-[#4945ff]/30
+                        focus:border-[#4945ff]
+                        focus:shadow-[0_0_20px_rgba(73,69,255,0.15)]">
+
+
+        </div>
+      </div>
+        @if (searchQuery !== undefined) {
+          <button (click)="clearSearch()" class="bg-blue-500 p-2 px-6 cursor-pointer transition-all duration-300 hover:bg-blue-300  text-white rounded-xl">
+          View All Todos
+        </button>
+        }
+        </div>
+
+      <!-- Table Container -->
+      <div class="w-full rounded border border-[#32324d] p-3 sm:p-5 shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
+        <div class="overflow-y-auto max-h-[40vh] md:max-h-[50vh]">
+          <div class="overflow-x-auto">
+            <table class="table-auto w-full border-collapse">
+              <thead>
+                <tr class="text-[#a5a5ba] text-[0.8rem] sm:text-[1rem]">
+                  <th class="text-left head-text p-3 sm:p-5 whitespace-nowrap">
+                    <h1>ID</h1>
+                  </th>
+                  @for (field of tablehead; track field) {
+                    <th class="text-left head-text p-3 sm:p-5 whitespace-nowrap">
+                      <h1>{{field.field}}</h1>
+                    </th>
+                  }
                 </tr>
-              }
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+
+                @if (searchQuery !== undefined) {
+                @for (data of filterdItems; track data) {
+                  <tr class="text-white border-t border-t-[#32324d] transition-all duration-300">
+                    <td class="p-3 sm:p-5 whitespace-nowrap">{{$index+1}}</td>
+                    <td class="p-3 sm:p-5 whitespace-nowrap">{{data.Name}}</td>
+                    <td class="p-3 sm:p-5 whitespace-nowrap">{{data.Description}}</td>
+                    <td class="p-3 sm:p-5">
+                      @if (data.compeleted) {
+                        <div (click)="updateTodoCompelete(data.Id)"
+                             class="w-[15px] h-[15px] rounded-[50%] bg-green-500 cursor-pointer
+                                    transition-all duration-300 hover:bg-red-200
+                                    mx-auto sm:mx-0 green-circle">
+                        </div>
+                      } @else {
+                        <div (click)="updateTodoCompelete(data.Id)"
+                             class="w-[15px] h-[15px] rounded-[50%] bg-red-500 cursor-pointer
+                                    transition-all duration-300 hover:bg-green-200
+                                    mx-auto sm:mx-0 red-circle">
+                        </div>
+                      }
+                    </td>
+                    <td class="p-3 sm:p-5 flex gap-2 justify-center sm:justify-start">
+                      <div (click)="onclickDelete(data.Id)"
+                           class="bg-rose-500 p-1 rounded cursor-pointer
+                                  transition-all duration-300 hover:bg-rose-300
+                                  flex justify-center items-center">
+                        <mat-icon class="text-sm sm:text-base">delete_forever</mat-icon>
+                      </div>
+                      <div (click)="updateButtonClicked(data.Id, data.Name, data.Description, data.compeleted)"
+                           class="bg-amber-500 p-1 rounded cursor-pointer
+                                  transition-all duration-300 hover:bg-amber-300
+                                  flex justify-center items-center">
+                        <mat-icon class="text-sm sm:text-base">brush</mat-icon>
+                      </div>
+                    </td>
+                  </tr>
+                }
+                }@else {
+                  @for (data of tableData; track data) {
+                  <tr class="text-white border-t border-t-[#32324d] transition-all duration-300">
+                    <td class="p-3 sm:p-5 whitespace-nowrap">{{$index+1}}</td>
+                    <td class="p-3 sm:p-5 whitespace-nowrap">{{data.Name}}</td>
+                    <td class="p-3 sm:p-5 whitespace-nowrap">{{data.Description}}</td>
+                    <td class="p-3 sm:p-5">
+                      @if (data.compeleted) {
+                        <div (click)="updateTodoCompelete(data.Id)"
+                             class="w-[15px] h-[15px] rounded-[50%] bg-green-500 cursor-pointer
+                                    transition-all duration-300 hover:bg-red-200
+                                    mx-auto sm:mx-0 green-circle">
+                        </div>
+                      } @else {
+                        <div (click)="updateTodoCompelete(data.Id)"
+                             class="w-[15px] h-[15px] rounded-[50%] bg-red-500 cursor-pointer
+                                    transition-all duration-300 hover:bg-green-200
+                                    mx-auto sm:mx-0 red-circle">
+                        </div>
+                      }
+                    </td>
+                    <td class="p-3 sm:p-5 flex gap-2 justify-center sm:justify-start">
+                      <div (click)="onclickDelete(data.Id)"
+                           class="bg-rose-500 p-1 rounded cursor-pointer
+                                  transition-all duration-300 hover:bg-rose-300
+                                  flex justify-center items-center">
+                        <mat-icon class="text-sm sm:text-base">delete_forever</mat-icon>
+                      </div>
+                      <div (click)="updateButtonClicked(data.Id, data.Name, data.Description, data.compeleted)"
+                           class="bg-amber-500 p-1 rounded cursor-pointer
+                                  transition-all duration-300 hover:bg-amber-300
+                                  flex justify-center items-center">
+                        <mat-icon class="text-sm sm:text-base">brush</mat-icon>
+                      </div>
+                    </td>
+                  </tr>
+                }
+                }
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Modals -->
   @if (addTodoPopup || deletePopup || updatePopup) {
     <div class="fixed inset-0 bg-[rgba(24,24,38,0.9)] flex justify-center items-center z-50 p-4">
-      @if (addTodoPopup){
-        <div class="z-10 w-full max-w-sm rounded border border-[#32324d] p-5 shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
+      @if (addTodoPopup) {
+        <div class="z-10 w-full max-w-sm rounded border border-[#32324d] p-5
+                    shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
           <h1 class="text-white font-[600] text-center text-[22px] sm:text-[26px]">
             Add Todo
           </h1>
           <form class="flex flex-col gap-3 mt-5" [formGroup]="addTodoForm">
-            <input formControlName="Name" type="text" placeholder="Enter Name ..."
-                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl transition-all duration-300 ring-0 focus:border-blue-300 text-white text-[0.8rem] outline-none">
-            <input formControlName="Description" type="text" placeholder="Enter Description ..."
-                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl transition-all duration-300 ring-0 focus:border-blue-300 text-white text-[0.8rem] outline-none"
-            >
+            <input formControlName="Name"
+                   type="text"
+                   placeholder="Enter Name ..."
+                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl
+                          transition-all duration-300 ring-0 focus:border-blue-300
+                          text-white text-[0.8rem] outline-none">
+            <input formControlName="Description"
+                   type="text"
+                   placeholder="Enter Description ..."
+                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl
+                          transition-all duration-300 ring-0 focus:border-blue-300
+                          text-white text-[0.8rem] outline-none">
             <div class="flex gap-2 mt-2 justify-center">
-              <button (click)="addTodoPopup = !addTodoPopup" class="bg-rose-500 flex items-center justify-center
-     text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
-    cursor-pointer transition-all duration-300 hover:bg-rose-400">
+              <button (click)="addTodoPopup = !addTodoPopup"
+                      class="bg-rose-500 flex items-center justify-center
+                             text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
+                             cursor-pointer transition-all duration-300 hover:bg-rose-400">
                 Cancel
               </button>
-              <button [disabled]="addTodoForm.invalid" (click)="addTodo()" class="bg-[#4945ff] flex items-center justify-center
-     text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300
-    cursor-pointer transition-all duration-300 hover:bg-blue-400">
+              <button [disabled]="addTodoForm.invalid"
+                      (click)="addTodo()"
+                      class="bg-[#4945ff] flex items-center justify-center
+                             text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
+                             disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300
+                             cursor-pointer transition-all duration-300 hover:bg-blue-400">
                 Add
               </button>
             </div>
           </form>
         </div>
-      } @else if (deletePopup){
-        <div class="p-6 sm:p-10 flex flex-col justify-center items-center rounded border border-[#32324d] shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134] w-full max-w-sm text-center">
+      } @else if (deletePopup) {
+        <div class="p-6 sm:p-10 flex flex-col justify-center items-center rounded
+                    border border-[#32324d] shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)]
+                    bg-[#212134] w-full max-w-sm text-center">
           <h1 class="text-[1.2rem] sm:text-[1.3rem] text-white mb-2">Delete Todo</h1>
-          <h3 class="text-[#a5a5ba] text-[0.7rem] sm:text-[0.8rem]">Do you want to delete your todo?</h3>
+          <h3 class="text-[#a5a5ba] text-[0.7rem] sm:text-[0.8rem]">
+            Do you want to delete your todo?
+          </h3>
           <div class="flex gap-2 mt-5">
-            <button (click)="deletePopup = !deletePopup" class="bg-gray-500 flex items-center justify-center
-     text-gray-200 opacity-[0.7] p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
-    cursor-pointer transition-all duration-300 hover:bg-gray-400">
+            <button (click)="deletePopup = !deletePopup"
+                    class="bg-gray-500 flex items-center justify-center
+                           text-gray-200 opacity-[0.7] p-2 px-4 sm:px-5
+                           font-[600] text-[13px] rounded
+                           cursor-pointer transition-all duration-300 hover:bg-gray-400">
               Cancel
             </button>
-            <button  (click)="deleteTodo()" class="bg-rose-500 flex items-center justify-center
-     text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
-    cursor-pointer transition-all duration-300 hover:bg-rose-400">
+            <button (click)="deleteTodo()"
+                    class="bg-rose-500 flex items-center justify-center
+                           text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
+                           cursor-pointer transition-all duration-300 hover:bg-rose-400">
               Delete
             </button>
           </div>
         </div>
       } @else if (updatePopup) {
-        <div class="z-10 w-full max-w-sm rounded border border-[#32324d] p-5 shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
+        <div class="z-10 w-full max-w-sm rounded border border-[#32324d] p-5
+                    shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
           <h1 class="text-white font-[600] text-center text-[22px] sm:text-[26px]">
             Edit Todo
           </h1>
           <form class="flex flex-col gap-3 mt-5" [formGroup]="editTodoForm">
-            <input formControlName="Name" type="text" placeholder="Enter Name ..."
-                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl transition-all duration-300 ring-0 focus:border-blue-300 text-white text-[0.8rem] outline-none">
-            <input formControlName="Description" type="text" placeholder="Enter Description ..."
-                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl transition-all duration-300 ring-0 focus:border-blue-300 text-white text-[0.8rem] outline-none"
-            >
+            <input formControlName="Name"
+                   type="text"
+                   placeholder="Enter Name ..."
+                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl
+                          transition-all duration-300 ring-0 focus:border-blue-300
+                          text-white text-[0.8rem] outline-none">
+            <input formControlName="Description"
+                   type="text"
+                   placeholder="Enter Description ..."
+                   class="p-3 bg-[#181826] border border-blue-500 rounded-xl
+                          transition-all duration-300 ring-0 focus:border-blue-300
+                          text-white text-[0.8rem] outline-none">
             <div class="flex gap-2 mt-2 justify-center">
               <button (click)="updatePopup = !updatePopup"
                       class="bg-rose-500 flex items-center justify-center
-     text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
-    cursor-pointer transition-all duration-300 hover:bg-rose-400">
+                             text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
+                             cursor-pointer transition-all duration-300 hover:bg-rose-400">
                 Cancel
               </button>
-              <button [disabled]="editTodoForm.invalid" (click)="update()" class="bg-amber-500 flex items-center justify-center
-     text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300
-    cursor-pointer transition-all duration-300 hover:bg-amber-400">
+              <button [disabled]="editTodoForm.invalid"
+                      (click)="update()"
+                      class="bg-amber-500 flex items-center justify-center
+                             text-white p-2 px-4 sm:px-5 font-[600] text-[13px] rounded
+                             disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300
+                             cursor-pointer transition-all duration-300 hover:bg-amber-400">
                 Edit
               </button>
             </div>

@@ -58,6 +58,23 @@ export class HomeComponent {
   ];
 
   tableData: ITableValues[] = [];
+    searchQuery: string | undefined = undefined;
+
+  filterdItems :ITableValues[] | undefined = undefined
+
+
+  onSearch() {
+      if (this.searchQuery !== undefined) {
+        const lowerSearch = this.searchQuery.toLowerCase();
+        this.filterdItems = this.tableData.filter(item =>
+          item.Name.toLowerCase().includes(lowerSearch) ||
+          item.Description.toLowerCase().includes(lowerSearch)
+        );
+      }
+  }
+  clearSearch() {
+    this.searchQuery = undefined
+  }
 
 
   constructor(private todoService: TodoServiceService, private router:Router) {
@@ -66,11 +83,8 @@ export class HomeComponent {
 
   reloadTodos() {
     this.tableData = [];
-
-
     const userid = localStorage.getItem("userID");
     const todos = this.todoService.getTodosById(userid);
-
     todos.subscribe((response) => {
       for (let i = 0; i < response.data.length; i++) {
         const todo = response.data[i];
@@ -87,9 +101,6 @@ export class HomeComponent {
       }
     });
   }
-
-
-
   addTodo() {
     const Name = this.addTodoForm.controls['Name'].value;
     const Description = this.addTodoForm.controls['Description'].value;
@@ -101,7 +112,6 @@ export class HomeComponent {
         completed:completed
       }
     }
-
     this.todoService.addTodo(requestBody).subscribe((response: ITodoAddDtoResponse)=>{
       this.addTodoPopup = false;
       this.reloadTodos();
@@ -109,7 +119,6 @@ export class HomeComponent {
     })
 
   }
-
   updateTodoCompelete(todoId:string) {
 
     var todoForUpdate: ITodoAddDto  = {

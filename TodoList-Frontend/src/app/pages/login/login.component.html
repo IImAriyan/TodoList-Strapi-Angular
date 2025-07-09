@@ -1,24 +1,76 @@
-<main class="bg-[#181826] w-full min-h-screen p-4 sm:p-6 md:p-10 flex justify-center items-center ">
-  <div class="flex flex-col w-full justify-center items-center gap-10">
-    <div class="w-full h-full bg-gray-900 justify-center items-center flex flex-col">
-      <form [formGroup]="loginForm" class="flex justify-center w-[25rem] items-center flex-col gap-3 p-10 rounded border border-[#32324d] shadow-[1px 1px 10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
-        <h1  class="text-white text-[2rem]">Login To TodoList</h1>
-        <input  formControlName="username" type="text" placeholder="Username ..."
-               class="p-3 w-[100%]  bg-[#181826] mt-10  border border-blue-500 rounded-xl transition-all duration-300 ring-0 focus:border-blue-300 text-white text-[1rem] outline-none"
-        >
-        <input formControlName="password" type="password" placeholder="Password ..."
-               class="p-3 w-[100%]  bg-[#181826]   border border-blue-500 rounded-xl transition-all duration-300 ring-0 focus:border-blue-300 text-white text-[1rem] outline-none"
-        >
+<main class="bg-gradient-to-br from-[#181826] to-[#1a1a2e] w-full min-h-screen p-4 sm:p-6 md:p-10 flex justify-center items-center">
+  <div class="flex flex-col w-full justify-center items-center">
+    <div class="w-full h-full flex justify-center items-center">
+      <form [formGroup]="loginForm"
+            class="flex justify-center w-full max-w-[400px] items-center flex-col gap-6 p-8 sm:p-10
+                   rounded-2xl border border-[#32324d]/30
+                   shadow-[0_0_40px_rgba(73,69,255,0.1)]
+                   bg-[#212134]/95 backdrop-blur-sm
+                   transform hover:scale-[1.02] transition-all duration-300">
 
-        <button (click)="login()" [disabled]="loginForm.invalid" class="bg-[#4945ff]  flex items-center justify-center
-     text-white p-2 px-4 sm:px-5 font-[600] text-[12px] sm:text-[13px] rounded
-    cursor-pointer transition-all duration-300 hover:bg-blue-400 w-[100%]
-      disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300">
-         Login To Site
+        <!-- Header Section -->
+        <div class="text-center space-y-2 mb-4">
+          <h1 class="text-white text-[2rem] font-bold bg-gradient-to-r from-blue-400 to-purple-500
+                     bg-clip-text text-transparent">
+            Welcome Back
+          </h1>
+          <p class="text-gray-400 text-sm">Login to manage your todos</p>
+        </div>
 
+        <!-- Input Fields -->
+        <div class="w-full space-y-4">
+          <div class="relative">
+            @if (errMessage !== undefined) {
+              <div class="flex gap-2 mb-2 w-full justify-start items-center">
+                <div class="w-[5px] h-[5px] bg-rose-500 rounded-[100%]">
+                </div>
+                <div class="text-rose-500 text-sm font-bold">
+                  {{errMessage}}
+                </div>
+              </div>
+            }
+            <input formControlName="username"
+                   type="text"
+                   placeholder="Username"
+                   [class]="'p-4 w-full bg-[#181826]/80 rounded-xl ' +
+                           'transition-all duration-500 ' +
+                           'text-white text-[0.95rem] ' +
+                           'outline-none ' +
+                           (errMessage !== undefined ?
+                           'border border-rose-500 focus:border-rose-500 focus:shadow-[0_0_15px_rgba(244,63,94,0.1)] ' :
+                           'border border-[#32324d] focus:border-blue-500/50 focus:shadow-[0_0_15px_rgba(73,69,255,0.1)] ') +
+                           'placeholder:text-gray-500'">
+          </div>
+
+          <div class="relative">
+            <input formControlName="password"
+                   type="password"
+                   placeholder="Password"
+                   [class]="'p-4 w-full bg-[#181826]/80 rounded-xl ' +
+                           'transition-all duration-500 ' +
+                           'text-white text-[0.95rem] ' +
+                           'outline-none ' +
+                           (errMessage !== undefined ?
+                           'border border-rose-500 focus:border-rose-500 focus:shadow-[0_0_15px_rgba(244,63,94,0.1)] ' :
+                           'border border-[#32324d] focus:border-blue-500/50 focus:shadow-[0_0_15px_rgba(73,69,255,0.1)] ') +
+                           'placeholder:text-gray-500'">
+          </div>
+        </div>
+
+        <!-- Login Button - Simplified -->
+        <button (click)="login()"
+                [disabled]="loginForm.invalid"
+                class="w-full p-4 rounded-xl text-white font-semibold
+                       bg-[#4945ff] transition-all duration-300
+                       cursor-pointer
+                       hover:bg-[#3f3cdb]
+                       hover:scale-[0.9]
+                       disabled:opacity-50 disabled:cursor-not-allowed
+                       disabled:hover:bg-[#4945ff]">
+          LOGIN
         </button>
+
       </form>
     </div>
-
   </div>
 </main>

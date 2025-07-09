@@ -21,6 +21,10 @@ export class AuthService {
     return localStorage.getItem(item)
   }
 
+    public delete(item:string):void {
+      localStorage.removeItem(item)
+    }
+
 
   public Authentication(user: IUserRequestBody): Observable<IUserResponse> {
       return this.http.post<IUserResponse>(this.baseUrl+'/auth/local', user)
