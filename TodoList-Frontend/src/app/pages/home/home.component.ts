@@ -41,6 +41,8 @@ export class HomeComponent {
     completed:false
   }
 
+
+
   editTodoForm :  FormGroup =  new FormGroup({
     Name: new FormControl(this.updateDto.Name, [Validators.required]),
     Description: new FormControl(this.updateDto.Description, [Validators.required]),
@@ -68,6 +70,47 @@ export class HomeComponent {
     this.reloadTodos();
   }
 
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalPages: number = 1;
+
+  get paginatedData() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+
+    if (this.searchQuery !== undefined) {
+    // @ts-ignore
+      return this.filterdItems.slice(startIndex, endIndex);
+    }
+    return this.tableData.slice(startIndex, endIndex);
+  }
+
+  get pages(): number[] {
+
+    const data = this.searchQuery !== undefined ? this.filterdItems : this.tableData;
+    // @ts-ignore
+    this.totalPages = Math.ceil(data.length / this.itemsPerPage);
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+    }
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+    }
+  }
+
 
   onSearch() {
       if (this.searchQuery !== undefined) {
@@ -86,6 +129,7 @@ export class HomeComponent {
 
   reloadTodos() {
     this.tableData = [];
+    this.filterdItems = [];
     const userid = localStorage.getItem("userID");
     const todos = this.todoService.getTodosById(userid);
     todos.subscribe((response) => {
@@ -99,6 +143,14 @@ export class HomeComponent {
               Description: todo.Description,
               compeleted: todo.completed
             });
+            if (this.filterdItems !== undefined) {
+                this.filterdItems.push({
+              Id: todo.documentId,
+              Name: todo.Name,
+              Description: todo.Description,
+              compeleted: todo.completed
+            });
+            }
           }
         }
       }
