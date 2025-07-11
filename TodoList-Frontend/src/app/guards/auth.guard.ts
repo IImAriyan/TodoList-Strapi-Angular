@@ -12,8 +12,8 @@ interface jwtClaims {
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router)
   const auth = inject(AuthService)
-  const localStorageToken = auth.get("token")
 
+  const localStorageToken = auth.get("token")
 
   if (localStorageToken == null) {
     router.navigate(['/authentication/login'])
@@ -22,11 +22,10 @@ export const authGuard: CanActivateFn = (route, state) => {
     const tokenDecode = jwtDecode<jwtClaims>(localStorageToken);
     const currentTime = Math.floor(Date.now() / 1000);
     const isExpired = currentTime > tokenDecode.exp;
-    console.log(currentTime, tokenDecode.exp)
-
+    // console.log(currentTime, tokenDecode.exp)
     if (isExpired) {
-      localStorage.removeItem("token")
-      localStorage.removeItem("userID")
+      auth.delete("token")
+      auth.delete("userID")
       router.navigate(['/authentication/login'])
       return  false
     }else {

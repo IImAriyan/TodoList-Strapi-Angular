@@ -30,4 +30,6 @@ export class AuthService {
       return this.http.post<IUserResponse>(this.baseUrl+'/auth/local', user)
   }
 
+  // http://localhost:7000/api + /auth/local = http://localhost:7000/api/auth/local
+
 }

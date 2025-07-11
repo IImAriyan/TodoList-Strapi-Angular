@@ -18,7 +18,6 @@ export class LoginComponent {
   errMessage: undefined | string = undefined;
 
   constructor(private auth: AuthService, private router: Router) {
-
     if (auth.get("token") !== null) {
       router.navigate(['/todos'])
     }
@@ -29,19 +28,23 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required]),
   })
 
-
-
   login() {
     if (this.loginForm.valid) {
       const user: IUserRequestBody = {
         identifier: this.loginForm.controls['username'].value,
         password: this.loginForm.controls['password'].value,
       }
+
       this.auth.Authentication(user).subscribe({
         next: (response: IUserResponse) => {
           this.errMessage = undefined;
           const jwtToken = response.jwt;
           const jwtPayload = jwtDecode<JwtPayload>(jwtToken);
+
+          // exp = Token Ma Key Monghazi Mishe
+          // iat = Token Key Sader Shode
+          // id = User ID
+
           this.auth.set('token', jwtToken);
           this.auth.set('userID', jwtPayload.id.toString());
           this.router.navigate(['/todos']);
@@ -53,7 +56,6 @@ export class LoginComponent {
           }
         }
       });
-
     }
   }
 }

@@ -20,6 +20,7 @@ interface ITableValues {
 
 
 
+
 @Component({
   selector: 'app-home',
   imports: [MatIconModule, FormsModule, ReactiveFormsModule],
@@ -35,6 +36,10 @@ export class HomeComponent {
   deletePopup: boolean = false;
   deleteTodoID: string = "";
   updatePopup: boolean  = false;
+  todosCompletedPrecentage: string = "0%";
+  completedTodos: number = 0
+  totalTodos:number = 0;
+  console:Console = console;
   updateDto  = {
     Id:"",
     Name: "",
@@ -133,15 +138,20 @@ export class HomeComponent {
 
 
   reloadTodos() {
+
     this.tableData = [];
     this.filterdItems = [];
     const userid = localStorage.getItem("userID");
     const todos = this.todoService.getTodosById(userid);
+
     todos.subscribe((response) => {
       for (let i = 0; i < response.data.length; i++) {
         const todo = response.data[i];
         if (todo.users[0]) {
           if (todo.users[0].id.toString() == userid) {
+            if (todo.completed) {
+              this.completedTodos++;
+            }
             this.tableData.push({
               Id: todo.documentId,
               Name: todo.Name,
@@ -155,13 +165,19 @@ export class HomeComponent {
               Description: todo.Description,
               compeleted: todo.completed
             });
-            }
+
+            this.totalTodos = this.tableData.length;
+            this.todosCompletedPrecentage = Math.floor(((this.completedTodos / this.totalTodos) * 100)).toString() + "%";
+            this.console.log(this.todosCompletedPrecentage);
+          }
+
           }
         }
       }
-
-      this.onSearch()
+      // this.onSearch()
     });
+
+
   }
   addTodo() {
     const Name = this.addTodoForm.controls['Name'].value;
@@ -198,6 +214,7 @@ export class HomeComponent {
       Description:"",
       completed:false
     };
+
     this.todoService.getTodos().subscribe((response : ITodoGetAPI) =>{
 
       response.data.forEach(todo => {
@@ -226,6 +243,7 @@ export class HomeComponent {
 
       })
     })
+
 
 
   }
@@ -259,7 +277,6 @@ export class HomeComponent {
   }
 
   update() {
-
     if (this.editTodoForm.valid) {
       const requestBody: ITodoAddDtoResponse = {
         data:{
@@ -268,6 +285,7 @@ export class HomeComponent {
           completed:this.updateDto.completed
         }
       }
+
       this.todoService.updateTodo(requestBody, this.updateDto.Id).subscribe((response=>{
         this.editTodoForm.reset();
         this.updateDto = {
@@ -281,6 +299,7 @@ export class HomeComponent {
       }))
     }
   }
+
 
 
   logOut() {
