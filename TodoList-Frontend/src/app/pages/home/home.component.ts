@@ -12,6 +12,7 @@ interface ITableHeadField {
 }
 
 interface ITableValues {
+  show_id:number,
   Id:string,
   Name:string,
   Description:string,
@@ -147,8 +148,10 @@ export class HomeComponent {
     this.filterdItems = [];
     const userid = localStorage.getItem("userID");
     const todos = this.todoService.getTodosById(userid);
+    var id = 0
 
     todos.subscribe((response) => {
+
       for (let i = 0; i < response.data.length; i++) {
         const todo = response.data[i];
         if (todo.users[0]) {
@@ -156,7 +159,10 @@ export class HomeComponent {
             if (todo.completed) {
               this.completedTodos++;
             }
+
+            id ++;
             this.tableData.push({
+              show_id:id,
               Id: todo.documentId,
               Name: todo.Name,
               Description: todo.Description,
@@ -164,6 +170,7 @@ export class HomeComponent {
             });
             if (this.filterdItems !== undefined) {
                 this.filterdItems.push({
+              show_id:id,
               Id: todo.documentId,
               Name: todo.Name,
               Description: todo.Description,

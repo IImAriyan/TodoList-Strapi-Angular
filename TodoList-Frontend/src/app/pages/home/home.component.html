@@ -97,7 +97,7 @@
 
     <!-- Table Container -->
     <div class="w-full rounded border border-[#32324d] p-3 sm:p-5 shadow-[1px_1px_10px rgba(3, 3, 5, 0.35)] bg-[#212134]">
-      <div class="overflow-y-auto hide-scrollbar max-h-[40vh] md:max-h-[56vh]">
+      <div class="overflow-y-auto hide-scrollbar max-h-[50vh] md:max-h-[56vh]">
         <div class="overflow-x-auto">
           @if(tableData.length == 0) {
             <h1 class="text-[1rem] text-center text-white">You Don't Have any Todo In Here.</h1>
@@ -118,7 +118,7 @@
               <tbody>
                 @for (data of paginatedData; track data) {
                   <tr class="text-white border-t border-t-[#32324d] transition-all duration-300">
-                    <td class="p-3 sm:p-5 whitespace-nowrap">{{$index+1}}</td>
+                    <td class="p-3 sm:p-5 whitespace-nowrap">{{data.show_id}}</td>
                     <td class="p-3 sm:p-5 whitespace-nowrap">{{data.Name}}</td>
                     <td class="p-3 sm:p-5 whitespace-nowrap">{{data.Description}}</td>
                     <td class="p-3 sm:p-5">
