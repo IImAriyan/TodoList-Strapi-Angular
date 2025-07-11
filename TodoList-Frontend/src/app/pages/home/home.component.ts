@@ -36,7 +36,7 @@ export class HomeComponent {
   deletePopup: boolean = false;
   deleteTodoID: string = "";
   updatePopup: boolean  = false;
-  todosCompletedPrecentage: string = "0%";
+  todosCompletedPrecentage: number | undefined =0;
   completedTodos: number = 0
   totalTodos:number = 0;
   console:Console = console;
@@ -81,7 +81,7 @@ export class HomeComponent {
   }
 
   currentPage: number = 1;
-  itemsPerPage: number = 4;
+  itemsPerPage: number = 5;
   totalPages: number = 1;
 
   get paginatedData() {
@@ -139,6 +139,10 @@ export class HomeComponent {
 
   reloadTodos() {
 
+    this.todosCompletedPrecentage = 0;
+    this.completedTodos = 0;
+    this.totalTodos = 0;
+
     this.tableData = [];
     this.filterdItems = [];
     const userid = localStorage.getItem("userID");
@@ -167,8 +171,8 @@ export class HomeComponent {
             });
 
             this.totalTodos = this.tableData.length;
-            this.todosCompletedPrecentage = Math.floor(((this.completedTodos / this.totalTodos) * 100)).toString() + "%";
-            this.console.log(this.todosCompletedPrecentage);
+            this.todosCompletedPrecentage = Math.floor(((this.completedTodos / this.totalTodos) * 100));
+
           }
 
           }
